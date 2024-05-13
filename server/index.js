@@ -1,10 +1,14 @@
 const express = require("express");
-const mysql = require("mysql2");
+const mysql = require('mysql2');
+const dotenv = require('dotenv');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const axios = require("axios");
 const bodyParser = require("body-parser");
+
+// Load environmental variables from .env file
+dotenv.config();
 
 const app = express();
 const port = 3000;
@@ -15,21 +19,27 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
+
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_DATABASE:', process.env.DB_DATABASE);
+
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "g2",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 connection.connect((err) => {
   if (err) {
-    console.error("Error connecting to MySQL:", err);
-    process.exit(1);
-  } else {
-    console.log("Connected to MySQL database!");
+    console.error('Error connecting to MySQL database:', err);
+    return;
   }
+  console.log('Connected to MySQL database!');
 });
+
 
 app.use(cors());
 app.use(express.json());
