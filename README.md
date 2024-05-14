@@ -3,6 +3,10 @@
 ## Project Setup
 
 ```sh
+cd frontend
+```
+|
+```sh
 npm install
 ```
 
@@ -18,6 +22,10 @@ npm run build
 # server
 
 ## Project Setup
+
+```sh
+cd server
+```
 
 ```sh
 npm install
